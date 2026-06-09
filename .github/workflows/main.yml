@@ -1,25 +1,24 @@
 name: CI
 
 on:
-  push:
-    branches: [ master ]
   pull_request:
+  push:
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v2
-
-    - name: Install bazelisk
+    - name: Checkout
+      uses: actions/checkout@v6
+    - name: Setup JDK
+      uses: actions/setup-java@v5
+      with:
+        distribution: zulu
+        java-version: 8
+        cache: sbt
+    - name: Setup sbt
+      uses: sbt/setup-sbt@v1
+    - name: Build
+      shell: bash
       run: |
-        curl -LO https://github.com/bazelbuild/bazelisk/releases/download/v1.7.4/bazelisk-linux-amd64
-        mkdir -p "${HOME}/bin"
-        mv bazelisk-linux-amd64 "${HOME}/bin/bazel"
-        chmod +x "${HOME}/bin/bazel"
-
-    - name: Check bindings generation
-      run: |
-        set -e
-        PATH=${HOME}/bin:$PATH ./hooks/pre-commit
+        sbt -v -Dfile.encoding=UTF8 test
