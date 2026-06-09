@@ -21,7 +21,6 @@ ThisBuild / assemblyMergeStrategy := {
 ThisBuild / assemblyShadeRules := Seq(
   ShadeRule.rename("android.**" -> s"$prefix.android.@1").inAll,
   ShadeRule.rename("com.**" -> s"$prefix.com.@1").inAll,
-  ShadeRule.rename("google.**" -> s"$prefix.google.@1").inAll,
   ShadeRule.rename("io.**" -> s"$prefix.io.@1").inAll,
   ShadeRule.rename("org.**" -> s"$prefix.org.@1").inAll,
 )
